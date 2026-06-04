@@ -20,7 +20,10 @@ resource "google_compute_instance" "air_traffic_controller" {
 
   metadata_startup_script = <<-EOT
     #!/bin/bash
-    [ -f /etc/initialized ] && exit 0
+    if [ -f /etc/initialized ]; then
+      git -C /root/claude-playground pull
+      exit 0
+    fi
 
     apt-get update && apt-get install -y git
     git config --global user.email "robot.tim@${var.gcp_domain}"
