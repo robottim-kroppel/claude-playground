@@ -46,6 +46,22 @@ resource "google_secret_manager_secret" "git_bootstrapping_key" {
   }
 }
 
+resource "google_project_iam_member" "operators" {
+  for_each = toset([
+    "roles/storage.objectUser",
+    "roles/compute.osLogin",
+  ])
+  project = var.project_id
+  role    = each.key
+  member  = "user:gcp-operators@kroppel.net"
+}
+
+resource "google_service_account_iam_member" "operators_sa_user" {
+  service_account_id = google_service_account.air_traffic_controller.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "user:gcp-operators@kroppel.net"
+}
+
 resource "google_secret_manager_secret_version" "git_bootstrapping_key" {
   secret      = google_secret_manager_secret.git_bootstrapping_key.id
   secret_data = "fake"

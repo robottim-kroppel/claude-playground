@@ -10,7 +10,7 @@ resource "google_compute_instance" "air_traffic_controller" {
   }
 
   network_interface {
-    network = "default"
+    subnetwork = google_compute_subnetwork.project_wide_subnet.self_link
   }
 
   service_account {
