@@ -14,3 +14,5 @@ This repo is for bootstrapping an AI agent environment on GCP.  If starting from
 The basic idea is to give the AI agent a VM and a login (robot.tim) that has all the power it needs to get tasks done but does not have any power at all to alter the infrastructure it sits on (which can only be changed by yourself)
 
 The air traffic controller is meant to be a very small, very cheap VM that just runs all the time.  If more powerful stuff needs to get done, then the air traffic controller would spin up a more powerful VM long enough to get it done, and then spin it back down again.  Or would call a Cloud Run based web service, or do something else much more on demand and cheaper.
+
+The air traffic controller bootstaps itself by installing git and pulling this repo and then running install-terraform-prerequisites.sh when the VM is first created.
