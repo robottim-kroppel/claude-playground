@@ -23,7 +23,7 @@ resource "google_compute_instance" "air_traffic_controller" {
     [ -f /etc/initialized ] && exit 0
 
     apt-get update && apt-get install -y git
-    git config --global user.email "robot.tim@kroppel.net"
+    git config --global user.email "robot.tim@${var.gcp_domain}"
 
     mkdir -p /root/.ssh
     gcloud secrets versions access latest --secret="git-bootstrapping-key" > /root/.ssh/git-bootstrapping-key

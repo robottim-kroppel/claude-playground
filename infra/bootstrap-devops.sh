@@ -1,10 +1,11 @@
 #!/bin/bash
-# NOTE: gcp-devops@kroppel.net must already exist as a Google Workspace / Cloud Identity
+# NOTE: gcp-devops@${GCP_DOMAIN} must already exist as a Google Workspace / Cloud Identity
 # account before this script can assign roles to it. gcloud cannot create Google accounts.
 set -euo pipefail
 
 PROJECT_ID="kroppel-ai"
-DEVOPS_PRINCIPAL="user:gcp-devops@kroppel.net"
+GCP_DOMAIN="kroppel.net"
+DEVOPS_PRINCIPAL="user:gcp-devops@${GCP_DOMAIN}"
 TF_BACKEND_BUCKET="terraform-backend"
 
 project_roles=(

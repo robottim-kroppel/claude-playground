@@ -17,3 +17,9 @@ variable "service_account_id" {
   description = "Service account ID for the VM"
   type        = string
 }
+
+variable "gcp_domain" {
+  description = "GCP domain (e.g. kroppel.net)"
+  type        = string
+  default     = "kroppel.net"
+}

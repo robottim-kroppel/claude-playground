@@ -18,6 +18,13 @@ provider "google" {
   zone    = var.zone
 }
 
+locals {
+  operator_roles = toset([
+    "roles/storage.objectUser",
+    "roles/compute.osLogin",
+  ])
+}
+
 resource "google_project_service" "apis" {
   for_each = toset([
     "compute.googleapis.com",
@@ -47,19 +54,23 @@ resource "google_secret_manager_secret" "git_bootstrapping_key" {
 }
 
 resource "google_project_iam_member" "operators" {
-  for_each = toset([
-    "roles/storage.objectUser",
-    "roles/compute.osLogin",
-  ])
-  project = var.project_id
-  role    = each.key
-  member  = "user:gcp-operators@kroppel.net"
+  for_each = local.operator_roles
+  project  = var.project_id
+  role     = each.key
+  member   = "user:gcp-operators@${var.gcp_domain}"
+}
+
+resource "google_project_iam_member" "air_traffic_controller" {
+  for_each = local.operator_roles
+  project  = var.project_id
+  role     = each.key
+  member   = "serviceAccount:${google_service_account.air_traffic_controller.email}"
 }
 
 resource "google_service_account_iam_member" "operators_sa_user" {
   service_account_id = google_service_account.air_traffic_controller.name
   role               = "roles/iam.serviceAccountUser"
-  member             = "user:gcp-operators@kroppel.net"
+  member             = "user:gcp-operators@${var.gcp_domain}"
 }
 
 resource "google_secret_manager_secret_version" "git_bootstrapping_key" {
