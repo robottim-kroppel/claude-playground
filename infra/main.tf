@@ -14,8 +14,8 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = "us-west1"
-  zone    = "us-west1-c"
+  region  = var.region
+  zone    = var.zone
 }
 
 resource "google_project_service" "apis" {
@@ -29,7 +29,7 @@ resource "google_project_service" "apis" {
 }
 
 resource "google_service_account" "air_traffic_controller" {
-  account_id   = "air-traffic-controller"
+  account_id   = var.service_account_id
   display_name = "Air Traffic Controller VM"
 }
 

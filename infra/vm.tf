@@ -1,7 +1,7 @@
 resource "google_compute_instance" "air_traffic_controller" {
   name         = "air-traffic-controller"
   machine_type = "n4a-standard-1"
-  zone         = "us-west1-c"
+  zone         = var.zone
 
   boot_disk {
     initialize_params {
